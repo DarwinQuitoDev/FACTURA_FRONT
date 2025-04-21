@@ -1,8 +1,9 @@
 import { useTheme } from "@/contexts/ThemeProvider"
 import LoginForm from "../components/LoginForm"
-import { ParticlesBackground } from "@/components/bg/ParticlesBackground/ParticlesBackground"
+import { ParticlesBackground } from "@/components/bg/ParticlesBackground/particlesbackground"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Warehouse } from "lucide-react"
+import CardWhatsapp from "../components/CardWhatsapp"
 
 const LoginPage = () => {
   const handleLoginSuccess = (user: any) => {
@@ -27,7 +28,7 @@ const LoginPage = () => {
 
       <div className="flex-1 overflow-y-auto px-6 py-10 flex items-center justify-center">
         <div className="w-full max-w-md">
-          <Card className={`${isDark ? "bg-slate-900/60 border-slate-700/50" : "bg-white/70 border-slate-200/50"} backdrop-blur-md shadow-xl rounded-2xl overflow-hidden`}>
+        <Card className={`${isDark ? "bg-slate-900/60 border-slate-700/50" : "bg-white/70 border-slate-200/50"} backdrop-blur-md shadow-xl rounded-2xl overflow-hidden`}>
             <CardHeader className={`pb-3 ${isDark ? "border-b border-slate-700/50" : "border-b border-slate-200/50"}`}>
               <div className="flex items-center justify-center">
                 <CardTitle className={`flex items-center gap-2 text-xl font-semibold ${isDark ? "text-slate-100" : "text-slate-800"}`}>
@@ -40,6 +41,7 @@ const LoginPage = () => {
               <LoginForm onLoginSuccess={handleLoginSuccess} />
             </CardContent>
           </Card>
+          <CardWhatsapp />
         </div>
       </div>
     </div>

@@ -72,6 +72,7 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
         {loading ? "Cargando..." : "Iniciar sesión"}
       </Button>
     </form>
+    
   )
 }
 
