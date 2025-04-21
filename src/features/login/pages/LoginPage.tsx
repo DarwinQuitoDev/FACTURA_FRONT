@@ -1,6 +1,6 @@
 import { useTheme } from "@/contexts/ThemeProvider"
 import LoginForm from "../components/LoginForm"
-import { ParticlesBackground } from "@/components/ParticlesBackground/ParticlesBackground"
+import { ParticlesBackground } from "@/components/bg/ParticlesBackground/ParticlesBackground"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Warehouse } from "lucide-react"
 

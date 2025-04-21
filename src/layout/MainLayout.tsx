@@ -1,9 +1,9 @@
 // src/layouts/MainLayout.jsx
 import Sidebar from "./components/SidebarLayout"
 import Header from "./components/HeaderLayout"
-import { ParticlesBackground } from "@/components/ParticlesBackground/ParticlesBackground"
+import { ParticlesBackground } from "@/components/bg/ParticlesBackground/ParticlesBackground"
 import { Card, CardContent } from "@/components/ui/card"
-import { useClock } from "@/hooks/UseClock"
+import { useClock } from "@/hooks/useClock"
 import { useTheme } from "@/contexts/ThemeProvider"
 
 const MainLayout = () => {
