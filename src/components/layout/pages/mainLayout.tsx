@@ -1,10 +1,10 @@
 // src/layouts/MainLayout.jsx
-import Sidebar from "./components/SidebarLayout"
-import Header from "./components/HeaderLayout"
-import { ParticlesBackground } from "@/components/bg/ParticlesBackground/ParticlesBackground"
+import Sidebar from "../components/sidebarLayout"
+import Header from "../components/headerLayout"
+import { ParticlesBackground } from "@/components/background/particlesBackground"
 import { Card, CardContent } from "@/components/ui/card"
 import { useClock } from "@/hooks/useClock"
-import { useTheme } from "@/contexts/ThemeProvider"
+import { useTheme } from "@/contexts/appProvider"
 
 const MainLayout = () => {
   const { resolvedTheme } = useTheme()

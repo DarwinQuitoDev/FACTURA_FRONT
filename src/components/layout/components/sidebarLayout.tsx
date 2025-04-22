@@ -4,7 +4,7 @@ import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Activity, ChevronLeft, ChevronRight, Command, Database, Globe, LucideIcon, MessageSquare, Settings, Shield, Terminal } from "lucide-react"
 import { useState } from "react"
 import { Outlet } from "react-router-dom"
-import { useTheme } from "@/contexts/ThemeProvider"
+import { useTheme } from "@/contexts/appProvider"
 
 const Sidebar = () => {
   // Dashboard states

@@ -13,4 +13,4 @@ export const login = async (email: string, password: string) => {
   
   
   // features/login/index.ts
-  export { default as LoginPage } from "../pages/LoginPage"
+  export { default as LoginPage } from "../pages/loginPage"

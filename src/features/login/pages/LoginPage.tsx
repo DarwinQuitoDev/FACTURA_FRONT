@@ -1,9 +1,9 @@
-import { useTheme } from "@/contexts/ThemeProvider"
-import LoginForm from "../components/LoginForm"
-import { ParticlesBackground } from "@/components/bg/ParticlesBackground/particlesbackground"
+import { useTheme } from "@/contexts/appProvider"
+import LoginForm from "../components/loginForm"
+import { ParticlesBackground } from "@/components/background/particlesBackground"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Warehouse } from "lucide-react"
-import CardWhatsapp from "../components/CardWhatsapp"
+import CardWhatsapp from "../components/cardWhatsapp"
 
 const LoginPage = () => {
   const handleLoginSuccess = (user: any) => {

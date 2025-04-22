@@ -4,7 +4,7 @@ import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuLabel,
 import { Popover, PopoverContent, PopoverTrigger } from "@radix-ui/react-popover";
 import { Activity, AlertCircle, Bell, Check, CheckIcon, Computer, Download, Hexagon, Info, Moon, Search, Shield, Sun, Terminal, User, Wifi, X } from "lucide-react";
 import { useState } from "react";
-import { useTheme } from "@/contexts/ThemeProvider";
+import { useTheme } from "@/contexts/appProvider";
 
 const Header = () => {
 
