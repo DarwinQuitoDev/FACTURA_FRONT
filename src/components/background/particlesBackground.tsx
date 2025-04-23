@@ -49,12 +49,13 @@ export function ParticlesBackground({
         this.speedY = (Math.random() - 0.5) * 0.5
         this.color =
           theme === "dark"
-            ? `rgba(${Math.floor(Math.random() * 100) + 100}, ${Math.floor(Math.random() * 100) + 150}, ${Math.floor(
+          // Colores más claros para fondo oscuros
+            ? `rgba(${Math.floor(Math.random() * 100) + 200}, ${Math.floor(Math.random() * 100) + 200}, ${Math.floor(
                 Math.random() * 55
               ) + 200}, ${Math.random() * 0.5 + 0.2})`
-            : `rgba(${Math.floor(Math.random() * 55) + 100}, ${Math.floor(Math.random() * 55) + 100}, ${Math.floor(
-                Math.random() * 155
-              ) + 100}, ${Math.random() * 0.3 + 0.1})`
+          // Colores más oscuros para fondo claros
+            : `rgba(${Math.floor(Math.random() * 100)}, ${Math.floor(Math.random() * 55)}, ${Math.floor(
+                Math.random() * 155)}, ${Math.random() * 0.2 + 0.1})`
       }
 
       update() {

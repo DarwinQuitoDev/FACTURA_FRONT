@@ -58,7 +58,7 @@ import { Popover, PopoverContent, PopoverTrigger } from "@/components/ui/popover
 
 //COMPONENTE DE PARTICULAS BACKGROUND
 import { ParticlesBackground } from "./components/ParticlesBackground/ParticlesBackground"
-import { LoadingOverlay } from "./components/loadingoverlay/loadingOverlay"
+import { LoadingOverlay } from "./components/overlay/loadingOverlay"
 
 export default function App() {
   // Theme states
