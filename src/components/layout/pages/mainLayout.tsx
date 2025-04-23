@@ -3,9 +3,16 @@ import Sidebar from "../components/sidebarLayout"
 import Header from "../components/headerLayout"
 import { ParticlesBackground } from "@/components/background/particlesBackground"
 import { useTheme } from "@/contexts/appProvider"
+import { useAuth } from "@/contexts/authProvider"
+import { Navigate } from "react-router-dom"
 
 const MainLayout = () => {
   const { resolvedTheme } = useTheme()
+  const { isAuthenticated } = useAuth()
+
+  if (!isAuthenticated) {
+    return <Navigate to="/login" replace />
+  }
 
   return (
     <div
@@ -14,7 +21,6 @@ const MainLayout = () => {
         : "bg-gradient-to-br from-slate-100 to-white text-slate-800"
         } relative overflow-hidden`}
     >
-      {/* Background particle effect */}
       <ParticlesBackground
         theme={resolvedTheme}
         className="z-0"
