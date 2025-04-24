@@ -1,4 +1,11 @@
 import { Contact } from 'lucide-react';
+import qrContactImg from "@/assets/svg/WhatsappContact.svg"; // usa @ si tienes alias configurado
+
+
+<div className="flex justify-center mb-4">
+  <img src={qrContactImg} alt="QR contacto ERP" className="w-44 h-44" />
+</div>
+
 
 const CardWhatsapp = () => (
   <div className="max-w-md mx-auto bg-white dark:bg-gray-900 shadow-xl rounded-2xl p-6 border border-gray-200 dark:border-gray-700">
@@ -11,7 +18,7 @@ const CardWhatsapp = () => (
 
     <div className="flex justify-center mb-4">
       <img
-        src="https://api.qrserver.com/v1/create-qr-code/?size=200x200&data=https://tuerp.com/contacto"
+        src={qrContactImg}
         alt="QR contacto ERP"
         className="w-44 h-44"
       />
@@ -22,7 +29,7 @@ const CardWhatsapp = () => (
       <span className="text-sm text-gray-700 dark:text-gray-200">
         Escríbenos al{' '}
         <a
-          href="https://wa.me/593999999999"
+          href="https://wa.me/593963791150"
           target="_blank"
           rel="noopener noreferrer"
           className="underline"
