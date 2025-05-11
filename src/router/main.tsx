@@ -17,6 +17,7 @@ createRoot(document.getElementById('root')!).render(
       <AuthProvider>
         <Routes>
           <Route path='/login' element={<LoginPage />} />
+          
           <Route path='/' element={
             <ProtectedRoute>
               <MainLayout />
