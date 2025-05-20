@@ -4,16 +4,12 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
+import Empresa from "../components/empresa";
+
 export default function ConfiguracionPage() {
   return (
     <div className="flex flex-col gap-4">
-      <div className="flex justify-between items-center">
-        <h1 className="text-3xl font-bold">Configuración</h1>
-        <button className="bg-primary text-white px-4 py-2 rounded-md">
-          Guardar Cambios
-        </button>
-      </div>
-
+      
       <Tabs defaultValue="empresa" className="w-full">
         <TabsList>
           <TabsTrigger value="empresa">Empresa</TabsTrigger>
@@ -24,48 +20,7 @@ export default function ConfiguracionPage() {
         </TabsList>
 
         <TabsContent value="empresa">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-            <Card className="p-4">
-              <h3 className="font-semibold mb-4">Información General</h3>
-              <div className="space-y-4">
-                <div>
-                  <Label htmlFor="razonSocial">Razón Social</Label>
-                  <Input type="text" id="razonSocial" />
-                </div>
-                <div>
-                  <Label htmlFor="ruc">RUC</Label>
-                  <Input type="text" id="ruc" />
-                </div>
-                <div>
-                  <Label htmlFor="direccion">Dirección</Label>
-                  <Input type="text" id="direccion" />
-                </div>
-                <div>
-                  <Label htmlFor="telefono">Teléfono</Label>
-                  <Input type="tel" id="telefono" />
-                </div>
-                <div>
-                  <Label htmlFor="email">Email</Label>
-                  <Input type="email" id="email" />
-                </div>
-              </div>
-            </Card>
-
-            <Card className="p-4">
-              <h3 className="font-semibold mb-4">Imagen Corporativa</h3>
-              <div className="space-y-4">
-                <div>
-                  <Label>Logo</Label>
-                  <div className="mt-2 border-2 border-dashed rounded-lg p-4 text-center">
-                    <p className="text-sm text-gray-500">
-                      Arrastra y suelta tu logo aquí o
-                      <button className="text-primary ml-1">selecciona un archivo</button>
-                    </p>
-                  </div>
-                </div>
-              </div>
-            </Card>
-          </div>
+          <Empresa/>
         </TabsContent>
 
         <TabsContent value="facturacion">
