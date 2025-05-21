@@ -4,7 +4,7 @@ import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
 import { Switch } from "@/components/ui/switch";
 
-import Empresa from "../components/empresa";
+import Empresa from "../components/Empresa";
 
 export default function ConfiguracionPage() {
   return (
