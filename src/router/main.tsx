@@ -12,10 +12,10 @@ import LoginPage from '@/features/login/pages/loginPage';
 import DashboardPage from '@/features/dashboard/pages/DashboardPage';
 
 //Pages - Personas
-import ClientesPage from '@/features/personas/pages/ClientesPage';
-import ProveedoresPage from '@/features/personas/pages/ProveedoresPage';
-import UsuariosPage from '@/features/personas/pages/UsuariosPage';
-import RolesPage from '@/features/personas/pages/RolesPage';
+import ClientesPage from '@/features/personas/clientes/page/ClientesPage';
+import ProveedoresPage from '@/features/personas/proveedores/page/ProveedoresPage';
+import UsuariosPage from '@/features/personas/usuarios/page/UsuariosPage';
+import RolesPage from '@/features/personas/roles/page/RolesPage';
 
 //Pages - Inventario
 import ProductosPage from '@/features/inventario/pages/ProductosPage';
