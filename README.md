@@ -59,3 +59,8 @@ FACTURA_FRONT/
 ├── .env
 └── package.json
 ```
+
+## 🚀 Desarrolladores
+Ing. Darwin Quito
+Ing. Jorge Salgado
+Ing. Marco Inlago
