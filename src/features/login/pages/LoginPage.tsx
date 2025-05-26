@@ -14,8 +14,9 @@ const LoginPage = () => {
 
   const handleLoginSuccess = (response: any) => {
     login(response.user, response.accessToken, response.refreshToken);
-    const from = location.state?.from?.pathname || "/";
-    navigate(from, { replace: true });
+    //const from = location.state?.from?.pathname || "/";
+    //navigate(from, { replace: true });
+    navigate("/", { replace: true });
   }
 
   const { resolvedTheme } = useTheme()

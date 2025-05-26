@@ -34,4 +34,4 @@ export const refreshToken = async (refreshToken: string): Promise<LoginResponse>
   }
 };
 
-export { default as LoginPage } from "../pages/loginPage";
+export { default as LoginPage } from "../pages/LoginPage";
