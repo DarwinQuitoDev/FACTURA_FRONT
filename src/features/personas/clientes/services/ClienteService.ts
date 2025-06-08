@@ -1,4 +1,4 @@
-import axios from 'axios';
+import { apiGet, apiPost, apiPut, apiDelete } from '@/services/apiService';
 
 export interface Cliente {
   id: number;
@@ -39,18 +39,13 @@ export interface CreateClienteDto {
   activo: boolean;
 }
 
-const BASE_URL = 'http://localhost:3000/api/persona';
+const BASE_URL = '/persona';
 
 export const ClienteService = {
   async getAll(): Promise<Cliente[] | null> {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await axios.get<Cliente[]>(BASE_URL, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return response.data;
+      const response = await apiGet<Cliente[]>(BASE_URL);
+      return response;
     } catch (error) {
       console.error("Error al obtener clientes:", error);
       return null;
@@ -59,13 +54,8 @@ export const ClienteService = {
 
   async getById(id: number): Promise<Cliente | null> {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await axios.get<Cliente>(`${BASE_URL}/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return response.data;
+      const response = await apiGet<Cliente>(`${BASE_URL}/${id}`);
+      return response;
     } catch (error) {
       console.error(`Error al obtener el cliente con ID ${id}:`, error);
       return null;
@@ -74,13 +64,8 @@ export const ClienteService = {
 
   async create(cliente: CreateClienteDto): Promise<Cliente | null> {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await axios.post<Cliente>(BASE_URL, cliente, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return response.data;
+      const response = await apiPost<Cliente, CreateClienteDto>(BASE_URL, cliente);
+      return response;
     } catch (error) {
       console.error("Error al crear cliente:", error);
       return null;
@@ -89,28 +74,17 @@ export const ClienteService = {
 
   async update(id: number, cliente: CreateClienteDto): Promise<Cliente | null> {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      const response = await axios.put<Cliente>(`${BASE_URL}/${id}`, cliente, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
-      return response.data;
+      const response = await apiPut<Cliente, CreateClienteDto>(`${BASE_URL}/${id}`, cliente);
+      return response;
     } catch (error) {
-      console.error(`Error al actualizar cliente`);
+      console.error(`Error al actualizar cliente:`, error);
       return null;
-      
     }
   },
 
   async delete(id: number): Promise<boolean> {
     try {
-      const accessToken = localStorage.getItem("accessToken");
-      await axios.delete(`${BASE_URL}/${id}`, {
-        headers: {
-          Authorization: `Bearer ${accessToken}`,
-        },
-      });
+      await apiDelete(`${BASE_URL}/${id}`);
       return true;
     } catch (error) {
       console.error(`Error al eliminar cliente con ID ${id}:`, error);
