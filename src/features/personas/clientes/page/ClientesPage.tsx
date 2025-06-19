@@ -59,7 +59,7 @@ export default function ClientesPage() {
 
       <Card>
         <CardHeader>
-          <CardTitle className="flex items-center gap-2">
+          <CardTitle className="flex items-center h-8 gap-2">
             Lista de Clientes
             {isLoading && <Loader2 className="h-4 w-4 animate-spin" />}
           </CardTitle>

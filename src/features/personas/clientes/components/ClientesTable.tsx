@@ -34,14 +34,6 @@ export function ClientesTable({ clientes, onEdit, onDelete, onView }: ClientesTa
       header: "Correo",
     },
     {
-      accessorKey: "totalVentas",
-      header: "Total Ventas",
-      cell: ({ row }) => {
-        const total = row.getValue("totalVentas") as number
-        return formatCurrency(total || 0)
-      },
-    },
-    {
       id: "actions",
       cell: ({ row }) => {
         const cliente = row.original
