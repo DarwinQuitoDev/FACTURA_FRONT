@@ -137,8 +137,8 @@ const Sidebar = () => {
       <div className="flex-1 overflow-y-auto custom-scrollbar px-6 py-4">
         <div className="max-w-full mx-auto space-y-6">
           <Card
-            className={`${resolvedTheme === "dark" ? "bg-slate-800 border-slate-600" : "bg-white/50 border-slate-200/50"
-              } backdrop-blur-sm overflow-hidden p-6`}>
+            className={`${resolvedTheme === "dark" ? "bg-slate-800 border-slate-600" : "bg-white border-slate-200/50"
+              } shadow-xl backdrop-blur-sm overflow-hidden p-6`}>
             <Outlet />
           </Card>
         </div>

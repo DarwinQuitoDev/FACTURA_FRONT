@@ -1,20 +1,20 @@
 import { createRoot } from 'react-dom/client';
-import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { BrowserRouter, Routes, Route, Navigate } from "react-router-dom";
 
-//Componentes
+// Contextos
 import { ThemeProvider } from '@/contexts/appProvider';
 import { AuthProvider } from '@/contexts/authProvider';
+
+// Componentes
 import { ProtectedRoute } from '@/components/auth/ProtectedRoute';
-
 import MainLayout from '@/components/layout/pages/mainLayout';
+
+// Páginas
 import LoginPage from '@/features/login/pages/LoginPage';
-
-import ListaCumplimiento from '@/features/cumplimiento/peps/peps'
-
-//Pages - Dashboard
 import DashboardPage from '@/features/dashboard/pages/DashboardPage';
+import ListaCumplimiento from '@/features/cumplimiento/peps/peps';
 
-//Styles
+// Estilos
 import '../index.css'
 
 createRoot(document.getElementById('root')!).render(
@@ -22,21 +22,29 @@ createRoot(document.getElementById('root')!).render(
     <BrowserRouter>
       <AuthProvider>
         <Routes>
+
+          {/* Página de login */}
           <Route path='/login' element={<LoginPage />} />
-          
-          <Route path='/' element={
-            <ProtectedRoute>
-              <MainLayout />
-            </ProtectedRoute>
-          }>
-            {/* Dashboard */}
+
+          {/* Rutas protegidas */}
+          <Route
+            path='/'
+            element={
+              <ProtectedRoute>
+                <MainLayout />
+              </ProtectedRoute>
+            }
+          >
+            {/* Página de inicio (Dashboard) */}
             <Route index element={<DashboardPage />} />
 
-             <Route path="cumplimiento">
-              <Route path="listas" element={<ListaCumplimiento />} />
-            </Route>
+            {/* Módulo de cumplimiento */}
+            <Route path="cumplimiento/listas" element={<ListaCumplimiento />} />
 
+            {/* Ruta comodín dentro de rutas protegidas: redirige a "/" */}
+            <Route path="*" element={<Navigate to="/" replace />} />
           </Route>
+
         </Routes>
       </AuthProvider>
     </BrowserRouter>

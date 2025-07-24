@@ -47,7 +47,7 @@ const Header = () => {
               : "from-blue-600 to-indigo-600"
           } bg-clip-text text-transparent`}
         >
-          LISTA DE 
+          APP CHUCHUQUI
         </span>
       </div>
 
@@ -150,7 +150,7 @@ const Header = () => {
               <Avatar>
                 <AvatarImage
                   src="/placeholder.svg?height=32&width=32"
-                  alt={user?.nombre_usuario || "Usuario"}
+                  alt={user?.nombre || "Usuario"}
                 />
                 <AvatarFallback
                   className={
@@ -159,7 +159,7 @@ const Header = () => {
                       : "bg-slate-200 text-blue-600"
                   }
                 >
-                  {user?.nombre_usuario?.charAt(0).toUpperCase() || "U"}
+                  {user?.nombre?.charAt(0).toUpperCase() || "U"}
                 </AvatarFallback>
               </Avatar>
             </Button>
@@ -195,7 +195,7 @@ const Header = () => {
                 <div className="flex items-center px-4 py-3 space-x-3">
                   <User className="h-4 w-4" />
                   <span className="text-sm">
-                    {user?.nombre_usuario || "Usuario"}
+                    {user?.nombre || "Usuario"}
                   </span>
                 </div>
                 <button

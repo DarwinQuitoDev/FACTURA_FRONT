@@ -1,12 +1,12 @@
-import { useState } from "react"
-import { useNavigate, useLocation } from "react-router-dom"
-import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { Label } from "@/components/ui/label"
-import { Checkbox } from "@/components/ui/checkbox"
-import { login } from "../services/LoginService"
-import { Link } from "react-router-dom"
-import { useAuth } from "@/contexts/authProvider"
+import { useState } from "react";
+import { useNavigate, useLocation, Link } from "react-router-dom";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
+import { Label } from "@/components/ui/label";
+import { Checkbox } from "@/components/ui/checkbox";
+import { login } from "../services/LoginService";
+import { useAuth } from "@/contexts/authProvider";
+import { Loader2 } from "lucide-react";
 
 interface LoginResponse {
   user: {
@@ -15,7 +15,7 @@ interface LoginResponse {
     correo: string;
   };
   accessToken: string;
-  refreshToken: string;
+  refreshToken?: string;
 }
 
 interface LoginFormProps {
@@ -23,17 +23,17 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
-  const [username, setUsername] = useState("")
-  const [password, setPassword] = useState("")
-  const [remember, setRemember] = useState(false)
-  const [error, setError] = useState("")
-  const [loading, setLoading] = useState(false)
-  
-  const navigate = useNavigate()
-  const location = useLocation()
-  const auth = useAuth()
+  const [username, setUsername] = useState("");
+  const [password, setPassword] = useState("");
+  const [remember, setRemember] = useState(false);
+  const [error, setError] = useState("");
+  const [loading, setLoading] = useState(false);
 
-  const from = location.state?.from?.pathname || "/"
+  const navigate = useNavigate();
+  const location = useLocation();
+  const auth = useAuth();
+
+  const from = location.state?.from?.pathname || "/";
 
   const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,18 +41,16 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
     setError("");
     try {
       const response = await login(username, password);
-      console.log("Login response:", response);
+
       if (remember) {
         localStorage.setItem("rememberUsuario", username);
       } else {
         localStorage.removeItem("rememberUsuario");
       }
-      // Guardar token y usuario en localStorage
+
       localStorage.setItem("accessToken", response.token);
       localStorage.setItem("user", JSON.stringify(response.usuario));
-      // Guardar en contexto
       auth.login(response.usuario, response.token);
-      // Callback: pasar usuario y token para que LoginPage lo use correctamente
       onLoginSuccess({ user: response.usuario, accessToken: response.token });
       navigate(from, { replace: true });
     } catch (err: any) {
@@ -60,45 +58,73 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
     } finally {
       setLoading(false);
     }
-  }
+  };
 
   return (
-    <form onSubmit={handleSubmit} className="space-y-6 max-w-sm mx-auto">
-      <div className="space-y-1">
-        <Label htmlFor="username">Usuario</Label>
+    <form onSubmit={handleSubmit} className="space-y-6">
+      <div className="space-y-2">
+        <Label htmlFor="username" className="text-sm font-medium">
+          Usuario
+        </Label>
         <Input
           id="username"
           type="text"
           value={username}
           onChange={(e) => setUsername(e.target.value)}
           required
+          placeholder="Nombre del usuario"
+          autoComplete="username"
         />
       </div>
-      <div className="space-y-1">
-        <Label htmlFor="password">Contraseña</Label>
+
+      <div className="space-y-2">
+        <Label htmlFor="password" className="text-sm font-medium">
+          Contraseña
+        </Label>
         <Input
           id="password"
           type="password"
           value={password}
           onChange={(e) => setPassword(e.target.value)}
           required
+          placeholder="••••••••"
+          autoComplete="current-password"
         />
       </div>
-      <div className="flex items-center justify-between text-sm">
-        <label className="flex items-center space-x-2">
-          <Checkbox id="remember" checked={remember} onCheckedChange={() => setRemember(!remember)} />
-          <span>Recordar usuario</span>
+
+      <div className="flex items-center justify-between">
+        <label className="flex items-center gap-2 text-sm text-muted-foreground">
+          <Checkbox
+            id="remember"
+            checked={remember}
+            onCheckedChange={() => setRemember(!remember)}
+          />
+          Recordar usuario
         </label>
-        <Link to="/recuperar-clave" className="text-blue-600 hover:underline dark:text-cyan-400">
+        <Link
+          to="/recuperar-clave"
+          className="text-sm text-blue-600 hover:underline dark:text-cyan-400"
+        >
           ¿Olvidaste tu contraseña?
         </Link>
       </div>
-      {error && <p className="text-red-500 text-sm text-center">{error}</p>}
-      <Button type="submit" disabled={loading} className="w-full">
+
+      {error && (
+        <p className="text-center text-sm text-red-500 font-medium bg-red-50 dark:bg-red-900/20 px-4 py-2 rounded-md">
+          {error}
+        </p>
+      )}
+
+      <Button
+        type="submit"
+        disabled={loading}
+        className="w-full flex items-center justify-center gap-2"
+      >
+        {loading && <Loader2 className="animate-spin h-4 w-4" />}
         {loading ? "Cargando..." : "Iniciar sesión"}
       </Button>
     </form>
-  )
-}
+  );
+};
 
-export default LoginForm
+export default LoginForm;

@@ -56,7 +56,7 @@ export default function Peps() {
             setCargando(true);
             toast.info("📤 Procesando archivo...");
 
-            const res = await axios.post("http://localhost:3000/api/limpiar", formData, {
+            const res = await axios.post("http://localhost:3000/auth/limpiar/api/limpiar", formData, {
                 responseType: 'blob',
             });
 
@@ -87,7 +87,8 @@ export default function Peps() {
         { id: 'observados', label: 'Lista Observados' }
     ];
 
-    return (<div className="bg-white shadow-xl rounded-2xl w-full max-w-4xl p-8 md:p-12 relative">
+    return (
+    <div>
 
         <h1 className="text-4xl font-bold text-center text-[#003366] mb-2">
             Limpiador de Listas
