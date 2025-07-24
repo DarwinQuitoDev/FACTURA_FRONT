@@ -41,6 +41,9 @@ createRoot(document.getElementById('root')!).render(
             {/* Módulo de cumplimiento */}
             <Route path="cumplimiento/listas" element={<ListaCumplimiento />} />
 
+            {/* Módulo de configuracion */}
+            <Route path="configuracion" element={<ListaCumplimiento />} />
+
             {/* Ruta comodín dentro de rutas protegidas: redirige a "/" */}
             <Route path="*" element={<Navigate to="/" replace />} />
           </Route>

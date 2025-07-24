@@ -31,6 +31,11 @@ const modules = [
     submodules: [
       { label: "Lista de cumplimiento", path: "/cumplimiento/listas" },
     ],
+  },
+  {
+    icon: Settings,
+    label: "Configiración",
+    path: "/configuracion"
   }
 ]
 

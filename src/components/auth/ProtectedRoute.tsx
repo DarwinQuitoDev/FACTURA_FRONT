@@ -1,17 +1,12 @@
-import { Navigate, useLocation } from 'react-router-dom';
+import { Navigate } from 'react-router-dom';
 import { useAuth } from '@/contexts/authProvider';
 
-interface ProtectedRouteProps {
-  children: React.ReactNode;
-}
+export const ProtectedRoute = ({ children }: { children: JSX.Element }) => {
+  const { isAuthenticated, isReady } = useAuth();
 
-export const ProtectedRoute = ({ children }: ProtectedRouteProps) => {
-  const { isAuthenticated } = useAuth();
-  const location = useLocation();
+  if (!isReady) return null; // o <Spinner /> si quieres una pantalla de carga
 
-  if (!isAuthenticated) {
-    return <Navigate to="/login" state={{ from: location }} replace />;
-  }
+  if (!isAuthenticated) return <Navigate to="/login" replace />;
 
-  return <>{children}</>;
+  return children;
 };
