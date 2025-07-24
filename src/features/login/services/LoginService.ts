@@ -1,37 +1,34 @@
 // features/login/services/authService.ts daleee
 import { axiosInstance } from '@/lib/axios';
 
+
 interface LoginResponse {
-  user: {
+  usuario: {
     id: number;
-    nombre_usuario: string;
+    nombre: string;
+    username: string;
     correo: string;
+    rol_id: number;
   };
-  accessToken: string;
-  refreshToken: string;
+  token: string;
+  msg: string;
 }
 
-export const login = async (usuario: string, password: string): Promise<LoginResponse> => {
+
+export const login = async (username: string, password: string): Promise<LoginResponse> => {
   try {
-    const response = await axiosInstance.post('/auth/login', {
-      usuario,
+    const response = await axiosInstance.post('/auth/auth/login', {
+      username,
       password,
     });
     return response.data;
   } catch (error: any) {
-    const errorMessage = error.response?.data?.error || 'Error al iniciar sesión';
+    const errorMessage = error.response?.data?.msg || 'Error al iniciar sesión';
     throw new Error(errorMessage);
   }
 };
 
-export const refreshToken = async (refreshToken: string): Promise<LoginResponse> => {
-  try {
-    const response = await axiosInstance.post('/auth/refresh', { refreshToken });
-    return response.data;
-  } catch (error: any) {
-    const errorMessage = error.response?.data?.error || 'Error al refrescar el token';
-    throw new Error(errorMessage);
-  }
-};
+
+// La nueva API no usa refreshToken, así que eliminamos esta función.
 
 export { default as LoginPage } from "../pages/LoginPage";

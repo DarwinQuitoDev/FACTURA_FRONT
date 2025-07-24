@@ -1,63 +1,75 @@
 import { createContext, useContext, useState, useEffect } from 'react';
 import { useNavigate } from 'react-router-dom';
 
+
 interface User {
   id: number;
-  nombre_usuario: string;
+  nombre: string;
+  username: string;
   correo: string;
+  rol_id: number;
 }
+
 
 interface AuthContextType {
   user: User | null;
   accessToken: string | null;
-  refreshToken: string | null;
-  login: (user: User, accessToken: string, refreshToken: string) => void;
+  login: (user: User, accessToken: string) => void;
   logout: () => void;
   isAuthenticated: boolean;
 }
 
+
 const AuthContext = createContext<AuthContextType | undefined>(undefined);
+
 
 export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [user, setUser] = useState<User | null>(null);
   const [accessToken, setAccessToken] = useState<string | null>(null);
-  const [refreshToken, setRefreshToken] = useState<string | null>(null);
   const navigate = useNavigate();
 
   useEffect(() => {
     // Check if we have tokens in localStorage
     const savedUser = localStorage.getItem('user');
     const savedAccessToken = localStorage.getItem('accessToken');
-    const savedRefreshToken = localStorage.getItem('refreshToken');
-
-    if (savedUser && savedAccessToken && savedRefreshToken) {
-      setUser(JSON.parse(savedUser));
-      setAccessToken(savedAccessToken);
-      setRefreshToken(savedRefreshToken);
+    // Validar que el usuario no sea 'undefined' ni null ni string vacía
+    if (
+      savedUser &&
+      savedUser !== 'undefined' &&
+      savedUser !== '' &&
+      savedAccessToken &&
+      savedAccessToken !== 'undefined' &&
+      savedAccessToken !== ''
+    ) {
+      try {
+        setUser(JSON.parse(savedUser));
+        setAccessToken(savedAccessToken);
+      } catch (e) {
+        setUser(null);
+        setAccessToken(null);
+        localStorage.removeItem('user');
+        localStorage.removeItem('accessToken');
+      }
+    } else {
+      setUser(null);
+      setAccessToken(null);
     }
   }, []);
 
-  const login = (user: User, accessToken: string, refreshToken: string) => {
+  const login = (user: User, accessToken: string) => {
     setUser(user);
     setAccessToken(accessToken);
-    setRefreshToken(refreshToken);
-    
     // Save to localStorage
     localStorage.setItem('user', JSON.stringify(user));
     localStorage.setItem('accessToken', accessToken);
-    localStorage.setItem('refreshToken', refreshToken);
   };
 
   const logout = () => {
     setUser(null);
     setAccessToken(null);
-    setRefreshToken(null);
-    
     // Clear localStorage
     localStorage.removeItem('user');
     localStorage.removeItem('accessToken');
-    localStorage.removeItem('refreshToken');
-    
     navigate('/login');
   };
 
@@ -65,7 +77,6 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
     <AuthContext.Provider value={{
       user,
       accessToken,
-      refreshToken,
       login,
       logout,
       isAuthenticated: !!user && !!accessToken

@@ -26,60 +26,12 @@ const modules = [
   },
   {
     icon: Users,
-    label: "Personas",
-    path: "/personas",
+    label: "Cumplimiento ",
+    path: "/cumplimiento",
     submodules: [
-      { label: "Clientes", path: "/personas/clientes" },
-      { label: "Proveedores", path: "/personas/proveedores" },
-      { label: "Usuarios", path: "/personas/usuarios" },
-      { label: "Roles", path: "/personas/roles" },
+      { label: "Lista de cumplimiento", path: "/cumplimiento/listas" },
     ],
-  },
-  {
-    icon: Package,
-    label: "Inventario",
-    path: "/inventario",
-    submodules: [
-      { label: "Productos", path: "/inventario/productos" },
-      { label: "Categorías", path: "/inventario/categorias" },
-      { label: "Bodegas", path: "/inventario/bodegas" },
-      { label: "Movimientos", path: "/inventario/movimientos" },
-    ],
-  },
-  {
-    icon: Receipt,
-    label: "Ventas",
-    path: "/ventas",
-    submodules: [
-      { label: "Lista de Ventas", path: "/ventas/facturas" },
-      { label: "Facturación", path: "/ventas/facturacion" },
-      { label: "Documentos Electrónicos", path: "/ventas/documentos" },
-    ],
-  },
-  {
-    icon: ShoppingCart,
-    label: "Compras",
-    path: "/compras",
-    submodules: [
-      { label: "Lista de Compras", path: "/compras/ordenes" },
-      { label: "Nueva Orden", path: "/compras/nueva" },
-    ],
-  },
-  {
-    icon: Wallet,
-    label: "Finanzas",
-    path: "/finanzas",
-    submodules: [
-      { label: "Cuentas por Cobrar", path: "/finanzas/cuentas-cobrar" },
-      { label: "Cuentas por Pagar", path: "/finanzas/cuentas-pagar" },
-      { label: "Formas de Pago", path: "/finanzas/formas-pago" },
-    ],
-  },
-  {
-    icon: Settings,
-    label: "Configuración",
-    path: "/configuracion",
-  },
+  }
 ]
 
 const Sidebar = () => {

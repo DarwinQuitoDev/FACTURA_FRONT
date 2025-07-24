@@ -4,7 +4,7 @@ import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
 import { Label } from "@/components/ui/label"
 import { Checkbox } from "@/components/ui/checkbox"
-import { login } from "../services/loginService"
+import { login } from "../services/LoginService"
 import { Link } from "react-router-dom"
 import { useAuth } from "@/contexts/authProvider"
 
@@ -23,7 +23,7 @@ interface LoginFormProps {
 }
 
 const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
-  const [usuario, setUsuario] = useState("")
+  const [username, setUsername] = useState("")
   const [password, setPassword] = useState("")
   const [remember, setRemember] = useState(false)
   const [error, setError] = useState("")
@@ -36,42 +36,41 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
   const from = location.state?.from?.pathname || "/"
 
   const handleSubmit = async (e: React.FormEvent) => {
-    e.preventDefault()
-    setLoading(true)
-    setError("")
-    
+    e.preventDefault();
+    setLoading(true);
+    setError("");
     try {
-      const response = await login(usuario, password)
+      const response = await login(username, password);
+      console.log("Login response:", response);
       if (remember) {
-        localStorage.setItem("rememberUsuario", usuario)
+        localStorage.setItem("rememberUsuario", username);
       } else {
-        localStorage.removeItem("rememberUsuario")
+        localStorage.removeItem("rememberUsuario");
       }
-      
-      // Save auth data using context
-      auth.login(response.user, response.accessToken, response.refreshToken)
-      
-      // Trigger onLoginSuccess callback
-      onLoginSuccess(response)
-      
-      // Navigate to the page user tried to visit or home
-      navigate(from, { replace: true })
+      // Guardar token y usuario en localStorage
+      localStorage.setItem("accessToken", response.token);
+      localStorage.setItem("user", JSON.stringify(response.usuario));
+      // Guardar en contexto
+      auth.login(response.usuario, response.token);
+      // Callback: pasar usuario y token para que LoginPage lo use correctamente
+      onLoginSuccess({ user: response.usuario, accessToken: response.token });
+      navigate(from, { replace: true });
     } catch (err: any) {
-      setError(err.message || "Error al iniciar sesión")
+      setError(err.message || "Error al iniciar sesión");
     } finally {
-      setLoading(false)
+      setLoading(false);
     }
   }
 
   return (
     <form onSubmit={handleSubmit} className="space-y-6 max-w-sm mx-auto">
       <div className="space-y-1">
-        <Label htmlFor="usuario">Usuario</Label>
+        <Label htmlFor="username">Usuario</Label>
         <Input
-          id="usuario"
+          id="username"
           type="text"
-          value={usuario}
-          onChange={(e) => setUsuario(e.target.value)}
+          value={username}
+          onChange={(e) => setUsername(e.target.value)}
           required
         />
       </div>

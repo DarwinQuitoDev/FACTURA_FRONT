@@ -47,7 +47,7 @@ const Header = () => {
               : "from-blue-600 to-indigo-600"
           } bg-clip-text text-transparent`}
         >
-          SISTEMA DE FACTURACION
+          LISTA DE 
         </span>
       </div>
 

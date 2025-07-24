@@ -4,7 +4,6 @@ import LoginForm from "../components/LoginForm"
 import { ParticlesBackground } from "@/components/background/particlesBackground"
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card"
 import { Warehouse } from "lucide-react"
-import CardWhatsapp from "../components/CardWhatsapp"
 import { useNavigate, useLocation } from 'react-router-dom'
 
 const LoginPage = () => {
@@ -13,7 +12,7 @@ const LoginPage = () => {
   const location = useLocation();
 
   const handleLoginSuccess = (response: any) => {
-    login(response.user, response.accessToken, response.refreshToken);
+    login(response.user, response.accessToken);
     //const from = location.state?.from?.pathname || "/";
     //navigate(from, { replace: true });
     navigate("/", { replace: true });
@@ -49,7 +48,6 @@ const LoginPage = () => {
               <LoginForm onLoginSuccess={handleLoginSuccess} />
             </CardContent>
           </Card>
-          <CardWhatsapp />
         </div>
       </div>
     </div>
