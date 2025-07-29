@@ -14,6 +14,8 @@ import LoginPage from '@/features/login/pages/LoginPage';
 import DashboardPage from '@/features/dashboard/pages/DashboardPage';
 import ListaCumplimiento from '@/features/cumplimiento/peps/peps';
 
+import UsuariosPage from '@/features/configuracion/usuarios/pages/UsuariosPage';
+
 // Estilos
 import '../index.css'
 
@@ -42,7 +44,7 @@ createRoot(document.getElementById('root')!).render(
             <Route path="cumplimiento/listas" element={<ListaCumplimiento />} />
 
             {/* Módulo de configuracion */}
-            <Route path="configuracion" element={<ListaCumplimiento />} />
+            <Route path="/configuracion/usuarios" element={<UsuariosPage />} />
 
             {/* Ruta comodín dentro de rutas protegidas: redirige a "/" */}
             <Route path="*" element={<Navigate to="/" replace />} />

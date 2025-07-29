@@ -92,23 +92,6 @@ const LoginForm = ({ onLoginSuccess }: LoginFormProps) => {
         />
       </div>
 
-      <div className="flex items-center justify-between">
-        <label className="flex items-center gap-2 text-sm text-muted-foreground">
-          <Checkbox
-            id="remember"
-            checked={remember}
-            onCheckedChange={() => setRemember(!remember)}
-          />
-          Recordar usuario
-        </label>
-        <Link
-          to="/recuperar-clave"
-          className="text-sm text-blue-600 hover:underline dark:text-cyan-400"
-        >
-          ¿Olvidaste tu contraseña?
-        </Link>
-      </div>
-
       {error && (
         <p className="text-center text-sm text-red-500 font-medium bg-red-50 dark:bg-red-900/20 px-4 py-2 rounded-md">
           {error}

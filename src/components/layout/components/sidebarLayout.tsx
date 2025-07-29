@@ -9,6 +9,7 @@ import {
   Receipt,
   Wallet,
   Settings,
+  Notebook,
   ChevronDown,
 
   Home
@@ -33,9 +34,13 @@ const modules = [
     ],
   },
   {
-    icon: Settings,
-    label: "Configiración",
-    path: "/configuracion"
+    icon: Users,
+    label: "Configuración ",
+    path: "/configuracion",
+    submodules: [
+      { label: "Usuarios", path: "/configuracion/usuarios" },
+      { label: "Roles", path: "/configuracion/usuarios" },
+    ],
   }
 ]
 
