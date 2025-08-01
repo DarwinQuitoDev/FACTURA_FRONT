@@ -9,23 +9,53 @@ const buttonVariants = cva(
   {
     variants: {
       variant: {
-        default:
-          "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
-        destructive:
-          "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
-        outline:
-          "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
-        secondary:
-          "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
-        ghost:
-          "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+        // ✔ Principal
+        default: "bg-primary text-primary-foreground shadow-xs hover:bg-primary/90",
+
+        // ✔ Botón de peligro (delete, alert)
+        destructive: "bg-destructive text-white shadow-xs hover:bg-destructive/90 focus-visible:ring-destructive/20 dark:focus-visible:ring-destructive/40 dark:bg-destructive/60",
+
+        // ✔ Bordeado (sin fondo)
+        outline: "border bg-background shadow-xs hover:bg-accent hover:text-accent-foreground dark:bg-input/30 dark:border-input dark:hover:bg-input/50",
+
+        // ✔ Alternativo
+        secondary: "bg-secondary text-secondary-foreground shadow-xs hover:bg-secondary/80",
+
+        // ✔ Fantasma (sin borde ni fondo, solo interacción)
+        ghost: "hover:bg-accent hover:text-accent-foreground dark:hover:bg-accent/50",
+
+        // ✔ Enlace tipo texto
         link: "text-primary underline-offset-4 hover:underline",
+
+        // ➕ Nuevo: Botón sutil para áreas suaves o secundarios menos destacados
+        subtle: "bg-muted text-foreground hover:bg-muted/80 dark:bg-muted/50 dark:hover:bg-muted/40",
+
+        // ➕ Nuevo: botón con énfasis fuerte para llamar la atención (como CTA)
+        accent: "bg-accent text-accent-foreground hover:bg-accent/90",
+
+        // ➕ Nuevo: botón deshabilitado explícito (visual)
+        disabled: "bg-muted text-muted-foreground cursor-not-allowed opacity-60",
+
+        // ➕ Nuevo: éxito (puede usarse para confirmaciones)
+        success: "bg-green-600 text-white hover:bg-green-700",
+
+        // ➕ Nuevo: informativo (para acciones neutrales)
+        info: "bg-blue-600 text-white hover:bg-blue-700",
+
+        // ➕ Nuevo: advertencia (para warnings no destructivos)
+        warning: "bg-yellow-400 text-black hover:bg-yellow-500",
       },
+
       size: {
         default: "h-9 px-4 py-2 has-[>svg]:px-3",
         sm: "h-8 rounded-md gap-1.5 px-3 has-[>svg]:px-2.5",
         lg: "h-10 rounded-md px-6 has-[>svg]:px-4",
         icon: "size-9",
+
+        // ➕ Más variantes opcionales
+        xl: "h-12 text-base px-8",
+        xs: "h-7 text-xs px-2.5",
+        square: "h-9 w-9 p-0",
       },
     },
     defaultVariants: {
@@ -33,7 +63,8 @@ const buttonVariants = cva(
       size: "default",
     },
   }
-)
+);
+
 
 function Button({
   className,

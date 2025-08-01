@@ -1,6 +1,6 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
-import { Pen, Trash2 } from 'lucide-react';
+import { Pen, ShieldBan, ShieldCheck, Trash2 } from 'lucide-react';
 
 export interface Rol {
   id: number;
@@ -43,8 +43,8 @@ const RolesList: React.FC<RolesListProps> = ({ roles = [], onEdit, onDelete }) =
                 <Button size="sm" variant="outline" onClick={() => onEdit(rol)}>
                   <Pen size={16} />
                 </Button>
-                <Button size="sm" variant="destructive" onClick={() => onDelete(rol)}>
-                  <Trash2 size={16} />
+                <Button className={`${!rol.estado ? 'bg-green-300 text-green-700' : 'bg-red-100 text-red-700'}`} size="sm" onClick={() => onDelete(rol)}>
+                   {!rol.estado ? <ShieldCheck size={16} /> : <ShieldBan size={16} />}
                 </Button>
               </td>
             </tr>
