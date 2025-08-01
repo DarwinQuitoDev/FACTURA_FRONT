@@ -15,9 +15,12 @@ import DashboardPage from '@/features/dashboard/pages/DashboardPage';
 import ListaCumplimiento from '@/features/cumplimiento/peps/peps';
 
 import UsuariosPage from '@/features/configuracion/usuarios/pages/UsuariosPage';
+import RolesPage from '@/features/configuracion/roles/pages/RolesPage';
+
 
 // Estilos
 import '../index.css'
+
 
 createRoot(document.getElementById('root')!).render(
   <ThemeProvider>
@@ -45,6 +48,9 @@ createRoot(document.getElementById('root')!).render(
 
             {/* Módulo de configuracion */}
             <Route path="/configuracion/usuarios" element={<UsuariosPage />} />
+            <Route path="/configuracion/roles" element={<RolesPage />} />
+
+
 
             {/* Ruta comodín dentro de rutas protegidas: redirige a "/" */}
             <Route path="*" element={<Navigate to="/" replace />} />

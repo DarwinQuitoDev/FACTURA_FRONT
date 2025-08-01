@@ -39,7 +39,7 @@ const modules = [
     path: "/configuracion",
     submodules: [
       { label: "Usuarios", path: "/configuracion/usuarios" },
-      { label: "Roles", path: "/configuracion/usuarios" },
+      { label: "Roles", path: "/configuracion/roles" },
     ],
   }
 ]
