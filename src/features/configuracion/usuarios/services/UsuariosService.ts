@@ -21,7 +21,7 @@ export const crearUsuario = async (
 
 export const actualizarUsuario = async (
   id: number,
-  data: { nombre_completo?: string; correo?: string; activo?: boolean }
+  data: { nombre_completo?: string; correo?: string; rol_id?: string; activo?: boolean }
 ) => {
   const response = await axiosInstance.put(`/auth/usuarios/${id}`, data);
   return response.data;

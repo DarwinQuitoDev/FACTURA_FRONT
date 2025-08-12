@@ -83,7 +83,7 @@ const UsuariosList: React.FC<UsuariosListProps> = ({
                                     <td className="px-4 py-2 text-center">{usuario.id}</td>
                                     <td className="px-4 py-2">{usuario.nombre_completo}</td>
                                     <td className="px-4 py-2">{usuario.correo}</td>
-                                    <td className="px-4 py-2 text-center">{usuario.rol_id === 2 ? 'Administrador' : usuario.rol_id}</td>
+                                    <td className="px-4 py-2 text-center">{usuario.rol_id === 1 ? 'Administrador' : usuario.rol_id}</td>
                                     <td className="px-4 py-2 text-center">
                                         <span className={`px-2 py-1 rounded-full text-xs font-medium ${usuario.activo ? 'bg-green-100 text-green-700' : 'bg-red-100 text-red-700'}`}>
                                             {usuario.activo ? 'Activo' : 'Inactivo'}
