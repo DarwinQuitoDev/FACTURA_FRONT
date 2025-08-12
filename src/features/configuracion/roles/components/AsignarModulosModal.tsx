@@ -1,4 +1,5 @@
-import React, { useMemo, useEffect, useState } from "react";
+// AsignarModulosModal.tsx
+import React, { useEffect, useState } from "react";
 import { Button } from "@/components/ui/button";
 import { Dialog, DialogContent, DialogHeader, DialogTitle } from "@/components/ui/dialog";
 import { useAsignacionModulos, Rol, Permiso } from "@/features/configuracion/roles/use/useAsignacionModulos";
@@ -12,7 +13,7 @@ interface AsignarModulosModalProps {
 
 function filtrarPermisosUnicos(permisos: Permiso[]) {
   const vistos = new Set<number>();
-  return permisos.filter(p => {
+  return permisos.filter((p: any) => {
     if (vistos.has(p.submodulo_id)) return false;
     vistos.add(p.submodulo_id);
     return true;
@@ -29,60 +30,96 @@ const AsignarModulosModal: React.FC<AsignarModulosModalProps> = ({ open, onClose
     refreshPermisos
   } = useAsignacionModulos(rol);
 
-  // Estado local para los cambios (batch)
   const [permisosLocales, setPermisosLocales] = useState<Permiso[]>([]);
+  const [saving, setSaving] = useState(false);
 
-  // Inicializa permisos locales solo cuando abre el modal o permisos originales cambian
   useEffect(() => {
     setPermisosLocales(filtrarPermisosUnicos(permisosOriginales));
   }, [permisosOriginales, open]);
 
-  // Cambia el estado local al hacer check/uncheck
   const handleTogglePermiso = (submodulo_id: number, checked: boolean) => {
     setPermisosLocales(prev => {
       const idx = prev.findIndex(p => p.submodulo_id === submodulo_id);
       if (idx > -1) {
-        // Actualiza el permitido
         return prev.map(p =>
-          p.submodulo_id === submodulo_id
-            ? { ...p, permitido: checked }
-            : p
+          p.submodulo_id === submodulo_id ? { ...p, permitido: checked } : p
         );
-      } else {
-        // Si no existe, agrega el nuevo permiso localmente (id=0)
-        return [...prev, { id: 0, submodulo_id, permitido: checked } as Permiso];
       }
+      // si no existía, lo “creamos” localmente (id = 0)
+      return [...prev, { id: 0, submodulo_id, permitido: checked } as Permiso];
     });
   };
 
-  // Cuando presiona Guardar, guarda solo los cambios
   const handleGuardar = async () => {
     if (!rol) return;
-    const originales = filtrarPermisosUnicos(permisosOriginales);
-    for (const sm of submodulos) {
-      const original = originales.find(p => p.submodulo_id === sm.id);
-      const local = permisosLocales.find(p => p.submodulo_id === sm.id);
-      const permitido = local ? !!local.permitido : false;
-      // Solo si cambió respecto al original, guardar
-      if (original) {
-        if (original.permitido !== permitido) {
-          await axiosInstance.put(`/auth/rol-submodulo-permiso/${original.id}`, {
-            ...original,
-            permitido,
-          });
+    setSaving(true);
+    try {
+      // mapa de originales para comparar rápido
+      const originalesUnicos = filtrarPermisosUnicos(permisosOriginales);
+      const originalesMap = new Map<number, Permiso & { id: number }>();
+      originalesUnicos.forEach((p: any) => originalesMap.set(p.submodulo_id, p));
+
+      // por cada submódulo visible, decidir si hay que crear/actualizar o no hacer nada
+      const peticiones: Promise<any>[] = [];
+
+      for (const sm of submodulos) {
+        const original = originalesMap.get(sm.id);             // puede ser undefined si no existe aún
+        const local = permisosLocales.find(p => p.submodulo_id === sm.id);
+
+        const permitidoDeseado = local ? !!local.permitido : false; // por defecto false si no tocó nada
+
+        if (!original && !permitidoDeseado) {
+          // no existía y sigue en false => nada que guardar
+          continue;
         }
-      } else if (permitido) {
-        // Si no existía y ahora está marcado, crea el permiso
-        await axiosInstance.post(`/auth/rol-submodulo-permiso/`, {
-          rol_id: rol.id,
-          submodulo_id: sm.id,
-          permitido,
-        });
+
+        if (!original && permitidoDeseado) {
+          // no existía y ahora true => CREAR
+          peticiones.push(
+            axiosInstance.post(`/auth/rol-submodulo-permiso/`, {
+              rol_id: rol.id,
+              submodulo_id: sm.id,
+              permiso_id: null,          // tu tabla lo permite, lo mandamos explícito
+              permitido: true,
+            })
+          );
+          continue;
+        }
+
+        // desde aquí: original existe
+        const originalBool = !!(original as any).permitido;
+        if (originalBool !== permitidoDeseado) {
+          // CAMBIÓ => actualizar explícito con PUT por ID
+          peticiones.push(
+            axiosInstance.put(`/auth/rol-submodulo-permiso/${(original as any).id}`, {
+              // solo mandamos campos que sí quieres permitir actualizar
+              rol_id: rol.id,
+              submodulo_id: sm.id,
+              permiso_id: null, // o el valor real si lo tienes
+              permitido: permitidoDeseado,
+            })
+          );
+
+          // Si prefieres usar tu DELETE que alterna, podrías llamar:
+          // if (permitidoDeseado !== originalBool) {
+          //   peticiones.push(axiosInstance.delete(`/auth/rol-submodulo-permiso/${(original as any).id}`));
+          // }
+          // Pero es mejor PUT explícito como arriba para dejar el estado exacto.
+        }
       }
-      // Si desmarcó uno que no existía, no haces nada (la base nunca crea "falsos")
+
+      if (peticiones.length) {
+        await Promise.all(peticiones);
+      }
+
+      await refreshPermisos();
+      onClose();
+    } catch (e) {
+      console.error(e);
+      // aquí puedes mostrar un toast de error si lo usas en tu app
+    } finally {
+      setSaving(false);
     }
-    await refreshPermisos();
-    onClose(); // Opcional: cierra el modal al guardar
   };
 
   if (!rol) return null;
@@ -118,8 +155,9 @@ const AsignarModulosModal: React.FC<AsignarModulosModalProps> = ({ open, onClose
                   {submodulos
                     .filter(sm => sm.modulo_id === modulo.id)
                     .map(sm => {
-                      const permiso = permisosLocales.find(p => p.submodulo_id === sm.id);
+                      const permiso = permisosLocales.find(p => p.submodulo_id === sm.id) as any;
                       const checked = permiso ? !!permiso.permitido : false;
+
                       return (
                         <li key={sm.id}>
                           <label className="flex items-center justify-between px-2 py-1 bg-background rounded-md hover:bg-accent transition-colors cursor-pointer">
@@ -128,6 +166,7 @@ const AsignarModulosModal: React.FC<AsignarModulosModalProps> = ({ open, onClose
                               type="checkbox"
                               className="w-4 h-4 accent-primary"
                               checked={checked}
+                              disabled={saving}
                               onChange={e => handleTogglePermiso(sm.id, e.target.checked)}
                             />
                           </label>
@@ -141,11 +180,11 @@ const AsignarModulosModal: React.FC<AsignarModulosModalProps> = ({ open, onClose
         )}
 
         <div className="mt-6 flex justify-end gap-2">
-          <Button variant="secondary" onClick={onClose}>
+          <Button variant="secondary" onClick={onClose} disabled={saving}>
             Cerrar
           </Button>
-          <Button variant="secondary" onClick={handleGuardar}>
-            Guardar
+          <Button variant="secondary" onClick={handleGuardar} disabled={saving}>
+            {saving ? "Guardando..." : "Guardar"}
           </Button>
         </div>
       </DialogContent>

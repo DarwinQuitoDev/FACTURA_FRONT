@@ -48,7 +48,7 @@ createRoot(document.getElementById('root')!).render(
             <Route index element={<DashboardPage />} />
 
             {/* Módulo de cumplimiento */}
-            <Route path="cumplimiento/listas" element={<ListaCumplimiento />} />
+            <Route path="/cumplimiento/listas" element={<ListaCumplimiento />} />
 
             {/* Módulo de configuracion */}
             <Route path="/configuracion/usuarios" element={<UsuariosPage />} />
