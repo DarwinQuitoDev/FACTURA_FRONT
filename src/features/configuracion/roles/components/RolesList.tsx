@@ -1,6 +1,7 @@
 import React from 'react';
 import { Button } from '@/components/ui/button';
 import { Pen, ShieldBan, ShieldCheck, Trash2 } from 'lucide-react';
+import AsignarModulosModal from './AsignarModulosModal';
 
 export interface Rol {
   id: number;
@@ -16,6 +17,14 @@ interface RolesListProps {
 }
 
 const RolesList: React.FC<RolesListProps> = ({ roles = [], onEdit, onDelete }) => {
+  const [modalOpen, setModalOpen] = React.useState(false);
+  const [selectedRol, setSelectedRol] = React.useState<Rol | null>(null);
+
+  const handleAsignarModulos = (rol: Rol) => {
+    setSelectedRol(rol);
+    setModalOpen(true);
+  };
+
   return (
     <div className="overflow-x-auto">
       <table className="min-w-full border rounded-lg shadow-sm text-sm">
@@ -40,17 +49,22 @@ const RolesList: React.FC<RolesListProps> = ({ roles = [], onEdit, onDelete }) =
                 </span>
               </td>
               <td className="px-4 py-2 flex gap-2 justify-center">
-                <Button size="sm" variant="outline" onClick={() => onEdit(rol)}>
+                <Button title='Editar' size="sm" variant="outline" onClick={() => onEdit(rol)}>
                   <Pen size={16} />
                 </Button>
-                <Button className={`${!rol.estado ? 'bg-green-300 text-green-700' : 'bg-red-100 text-red-700'}`} size="sm" onClick={() => onDelete(rol)}>
-                   {!rol.estado ? <ShieldCheck size={16} /> : <ShieldBan size={16} />}
+                <Button title='Asignar módulos' size="sm" variant="outline" onClick={() => handleAsignarModulos(rol)}>
+                  Módulos
+                </Button>
+                <Button title='Estado' className={`${!rol.estado ? 'bg-green-300 text-green-700' : 'bg-red-100 text-red-700'}`} size="sm" onClick={() => onDelete(rol)}>
+                  {!rol.estado ? <ShieldCheck size={16} /> : <ShieldBan size={16} />}
                 </Button>
               </td>
             </tr>
           ))}
         </tbody>
       </table>
+      {/* Modal de asignación de módulos */}
+      <AsignarModulosModal open={modalOpen} onClose={() => setModalOpen(false)} rol={selectedRol} />
     </div>
   );
 };
