@@ -26,6 +26,18 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
   const [isReady, setIsReady] = useState(false); // Nuevo estado
   const navigate = useNavigate();
 
+  // Función para verificar expiración de JWT
+  function isTokenExpired(token: string | null): boolean {
+    if (!token) return true;
+    try {
+      const payload = JSON.parse(atob(token.split('.')[1]));
+      // exp está en segundos
+      return payload.exp * 1000 < Date.now();
+    } catch {
+      return true;
+    }
+  }
+
   useEffect(() => {
     const savedUser = localStorage.getItem('user');
     const savedAccessToken = localStorage.getItem('accessToken');
@@ -38,14 +50,23 @@ export function AuthProvider({ children }: { children: React.ReactNode }) {
       savedAccessToken !== 'undefined' &&
       savedAccessToken !== ''
     ) {
-      try {
-        setUser(JSON.parse(savedUser));
-        setAccessToken(savedAccessToken);
-      } catch (e) {
+      // Verificar expiración del token
+      if (isTokenExpired(savedAccessToken)) {
         setUser(null);
         setAccessToken(null);
         localStorage.removeItem('user');
         localStorage.removeItem('accessToken');
+        navigate('/login');
+      } else {
+        try {
+          setUser(JSON.parse(savedUser));
+          setAccessToken(savedAccessToken);
+        } catch (e) {
+          setUser(null);
+          setAccessToken(null);
+          localStorage.removeItem('user');
+          localStorage.removeItem('accessToken');
+        }
       }
     } else {
       setUser(null);
